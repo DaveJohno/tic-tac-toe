@@ -24,5 +24,7 @@ Not to add too many features at the start
 
 ## Future Features - If i have more time
 
+themes
+token choice ✔️
 super Tic Tac Toe option
 customized grid size

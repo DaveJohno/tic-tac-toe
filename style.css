@@ -1,82 +1,283 @@
+/*
+// cursive font
+ font-family: 'Comforter', cursive;
+
+// bold rounded font
+font-family: 'Fredoka One', cursive;
+
+//Default Theme
+font-family: 'Roboto', sans-serif;
+
+//Retro Theme - old termial type font
+font-family: 'VT323', monospace; */
+
 * {
   box-sizing: border-box;
 }
 
 body {
+  display: flex;
+  justify-content: center;
+  align-items: center;
   width: 100vw;
   height: 100vh;
   margin: 0 auto;
+  padding: 1%;
+  font-size: 2rem;
+  font-style: normal;
+}
+
+body.default {
+  font-family: "Roboto", sans-serif;
+  background-image: url(./images/tic-toc-background.png);
+  background-size: 400%;
+  background-position: 49% 65%;
+  background-repeat: no-repeat;
+}
+
+body.retro {
+  font-family: "VT323", monospace;
+  color: black;
+  background-color: yellow;
+  border: dashed 5px blue;
+  color: white;
+}
+
+.forground-img {
+  position: fixed;
+  z-index: 1;
+  width: 100%;
+  height: 100%;
+  display: flex;
+  justify-content: space-around;
+  pointer-events: none;
+}
+
+.forground-img-left {
+  position: fixed;
+  left: 0px;
+  bottom: 0px;
+  background-image: url(./images/tic-toc-forground-left.png);
+  background-size: cover;
+  background-repeat: no-repeat;
+  height: 50%;
+  width: 100%;
+  z-index: 2;
+}
+.forground-img-right {
+  position: fixed;
+  right: 0px;
+  bottom: 0px;
+  background-image: url(./images/forground-right.png);
+  background-repeat: no-repeat;
+  height: 30%;
+  width: 30%;
+  z-index: 2;
 }
 
 .game-container {
-  margin: auto;
+  margin: 0 auto;
   width: 100%;
   height: 100%;
-  background-color: dodgerblue;
   display: flex;
   flex-direction: column;
-  justify-content: center;
+  justify-content: space-between;
   align-items: center;
-  padding: opx;
+}
+
+.game-container.retro {
+  background-color: black;
 }
 
 .score-board {
   display: grid;
+  margin: 0 auto;
   grid-template-columns: repeat(2, 1fr);
-  grid-template-rows: repeat(2, 1fr);
+  grid-template-rows: 1fr 1fr;
   width: 100%;
   max-width: 500px;
-  margin: auto;
+  color: white;
 }
+
+.score-board.default {
+  display: grid;
+  margin: 0 auto;
+  grid-template-columns: repeat(2, 1fr);
+  grid-template-rows: 1fr 1fr;
+  width: 100%;
+  max-width: 500px;
+  color: white;
+}
+
 .player-one,
 .player-two {
   display: flex;
   flex-direction: column;
   justify-content: center;
   align-items: center;
-  font-size: 3rem;
-  background-color: black;
+  margin: 5%;
+  border-radius: 5px;
+}
+
+.player-one.default {
   color: white;
+  /* border: tomato solid 5px; */
+  background-color: rgba(255, 99, 71, 0.5);
+}
+.player-two.default {
+  color: white;
+  /* border: rgb(255, 248, 220) solid 5px; */
+  background-color: rgba(255, 248, 220, 0.5);
+}
+
+.player-one.retro,
+.player-two.retro {
+  color: white;
+  border: yellow dashed;
 }
 
 .player-one-score,
 .player-two-score {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 60px;
+  width: 90%;
+  margin: 5px;
+}
+
+.player-one-score.default,
+.player-two-score.default {
+  border-top: solid cornsilk 5px;
+}
+
+.player-one-score.retro,
+.player-two-score.retro {
+  border: dashed blue;
   color: aliceblue;
-  height: 50px;
 }
 
 header {
   grid-column: 1 / span 2;
+  justify-content: center;
+  align-self: center;
   text-align: center;
-  font-size: 4rem;
+  font-size: 3rem;
 }
 
 .game-board {
   display: grid;
   grid-template-columns: repeat(3, 1fr);
   grid-template-rows: repeat(3, 1fr);
-  gap: 15px;
   width: fit-content;
   height: fit-content;
-  max-width: 500px;
-  max-height: 500px;
-  margin: auto;
-  padding: 15px;
-  background-color: tomato;
+  width: 90vw;
+  height: 90vw;
+  max-width: 365px;
+  max-height: 365px;
+  background-position: auto;
+  background-repeat: no-repeat;
+  pointer-events: none;
+  aspect-ratio: 1/1;
+  align-self: center;
+  text-align: center;
+}
+
+.game-board.default {
+  background-size: 345px 345px;
+  background-image: url(./images/tic\ toc\ game-board.png);
+}
+
+.game-board.retro {
+  color: black;
 }
 
 .game-board-square {
   background-color: transparent;
-  width: 15vw;
-  height: 15vw;
-  max-width: 125px;
-  max-height: 125px;
-  background-color: dodgerblue;
   font-size: 6rem;
   text-align: center;
-  font-family: Arial, Helvetica, sans-serif;
-
+  pointer-events: visible;
   display: flex;
   align-items: center;
   justify-content: center;
+  aspect-ratio: 1/1;
+}
+
+.icon {
+  height: 70%;
+  width: 70%;
+  background-size: contain;
+  background-size: 90%;
+  background-repeat: no-repeat;
+  background-position: center;
+  opacity: 60%;
+}
+
+.circle-icon {
+  background-image: url(./images/icons/circle.png);
+}
+
+.cross-icon {
+  background-image: url(./images/icons/cancel.png);
+}
+
+footer {
+  position: relative;
+  margin-top: 5%;
+  width: 100%;
+  font-size: 0.5em;
+  text-align: right;
+  color: white;
+  z-index: 3;
+}
+
+@media screen and (min-width: 600px) {
+  body.default {
+    background-size: 250%;
+    background-position: 50% 20%;
+  }
+}
+
+@media screen and (min-width: 768px) {
+  body {
+    font-size: 3rem;
+  }
+  .score-board {
+    font-size: 3rem;
+  }
+  body.default {
+    background-size: cover;
+    background-position: bottom;
+  }
+  .icon {
+    height: 60%;
+    width: 60%;
+  }
+  .game-board.default {
+    background-size: 475px 475px;
+  }
+  .game-board {
+    max-width: 480px;
+    max-height: 480px;
+  }
+
+  .forground-img-left {
+    position: fixed;
+    left: -200px;
+    bottom: 0px;
+    background-size: cover;
+    background-repeat: no-repeat;
+    height: 100%;
+    width: 100%;
+    z-index: 2;
+  }
+  .forground-img-right {
+    position: fixed;
+    right: -200px;
+    bottom: 0px;
+    background-repeat: no-repeat;
+    height: 30%;
+    width: 30%;
+    z-index: 2;
+  }
 }
