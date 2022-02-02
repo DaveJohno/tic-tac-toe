@@ -6,7 +6,7 @@ Gmae url [title](https://angry-payne-97fd85.netlify.app/)
 
 ## Planning Flow Chart
 
-![alt flow chart for tic tac toe](./planning/planning/tic tak toe flow chart.pdf)
+![alt flow chart for tic tac toe](./planning/tic tak toe flow chart.pdf)
 
 ## Cool Tech Used
 
