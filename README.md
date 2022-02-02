@@ -6,7 +6,7 @@ Game url [Tic Tac Toe By Daivd Johnston](https://angry-payne-97fd85.netlify.app/
 
 ## Planning Flow Chart
 
-<img src="./planning/tic tak toe flow chart.jpg" alt="flow chart for tic tac toe">
+<img src="./planning/tic tak toe flow chart.jpg" alt="flow chart for tic tac toe" width="500px">
 
 ## Cool Tech Used
 
