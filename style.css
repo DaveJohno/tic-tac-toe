@@ -43,6 +43,35 @@ body.retro {
   color: white;
 }
 
+.main-menu {
+  position: fixed;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  z-index: 5;
+  border-radius: 10px;
+  padding: 20px;
+  animation-duration: 4s;
+  animation-delay: 2s;
+  display: none;
+}
+h1 {
+  margin: 0px;
+  margin-bottom: 20px;
+  border-bottom: tomato solid 5px;
+  padding: 0px 10px;
+}
+h2 {
+  margin: 0px;
+}
+
+.main-menu.default {
+  color: rgba(94, 138, 171, 1);
+  border: tomato solid 5px;
+  background-color: wheat;
+}
+
 .forground-img {
   position: fixed;
   z-index: 1;
@@ -92,7 +121,7 @@ body.retro {
 .score-board {
   display: grid;
   margin: 0 auto;
-  grid-template-columns: repeat(2, 1fr);
+  grid-template-columns: repeat(3, 1fr);
   grid-template-rows: 1fr 1fr;
   width: 100%;
   max-width: 500px;
@@ -102,15 +131,16 @@ body.retro {
 .score-board.default {
   display: grid;
   margin: 0 auto;
-  grid-template-columns: repeat(2, 1fr);
+  grid-template-columns: repeat(3, 1fr);
   grid-template-rows: 1fr 1fr;
-  width: 100%;
+  width: 95%;
   max-width: 500px;
   color: white;
 }
 
 .player-one,
-.player-two {
+.player-two,
+.round-counter {
   display: flex;
   flex-direction: column;
   justify-content: center;
@@ -121,13 +151,18 @@ body.retro {
 
 .player-one.default {
   color: white;
-  /* border: tomato solid 5px; */
-  background-color: rgba(255, 99, 71, 0.5);
+  font-size: 1.2rem;
+  background-color: rgba(255, 99, 71, 0.7);
 }
 .player-two.default {
   color: white;
-  /* border: rgb(255, 248, 220) solid 5px; */
-  background-color: rgba(255, 248, 220, 0.5);
+  font-size: 1.2rem;
+  background-color: rgba(255, 248, 220, 0.7);
+}
+
+.round-counter.default {
+  color: white;
+  font-size: 1.2rem;
 }
 
 .player-one.retro,
@@ -137,13 +172,39 @@ body.retro {
 }
 
 .player-one-score,
-.player-two-score {
+.player-two-score,
+.round-counter-score {
   display: flex;
   justify-content: center;
   align-items: center;
-  height: 60px;
+  height: 50px;
+  width: 90%;
+}
+
+.count-down-timer {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-size: 1rem;
+  background-color: rgba(94, 138, 171, 0.8);
+  border-radius: 5px;
   width: 90%;
   margin: 5px;
+}
+
+.round-counter {
+  background-color: rgba(94, 138, 171, 0.5);
+  border-radius: 5px;
+  padding: 5px;
+}
+
+.count-down-timer > div {
+  margin: 2px;
+}
+
+.round-counter-score.default {
+  background-color: rgba(94, 138, 171, 0.8);
+  border-radius: 5px;
 }
 
 .player-one-score.default,
@@ -158,7 +219,7 @@ body.retro {
 }
 
 header {
-  grid-column: 1 / span 2;
+  grid-column: 1 / span 3;
   justify-content: center;
   align-self: center;
   text-align: center;
@@ -181,6 +242,29 @@ header {
   aspect-ratio: 1/1;
   align-self: center;
   text-align: center;
+}
+
+.bounce-animation {
+  animation: bounce 0.2s linear;
+}
+
+@keyframes bounce {
+  20%,
+  50%,
+  80%,
+  to {
+    transform: translateY(0);
+    transform: translateY(0px);
+  }
+  40% {
+    transform: translatex(-1px);
+  }
+  70% {
+  }
+  90% {
+    transform: translateX(3px);
+    transform: translateY(-4px);
+  }
 }
 
 .game-board.default {
@@ -257,8 +341,8 @@ footer {
     background-size: 475px 475px;
   }
   .game-board {
-    max-width: 480px;
-    max-height: 480px;
+    max-width: 470px;
+    max-height: 470px;
   }
 
   .forground-img-left {

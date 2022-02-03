@@ -1,15 +1,34 @@
-var ActivePlayer;
+var activePlayer;
 var playerOne = true;
-var playerOneScore = 0;
+var playerOneScore;
 var playerTwo = false;
-var playerTwoScore = 0;
+var playerTwoScore;
+var roundNumber;
 
-//get the game board
+//get the Dom's
 var gameBoardSquareNodeList = document.querySelectorAll(".game-board-square");
-
-//get the score boards
 var playerOneScoreBoard = document.querySelector(".player-one-score");
 var playerTwoScoreBoard = document.querySelector(".player-two-score");
+var bodyEl = document.querySelector("body");
+var gameBoardEl = document.querySelector(".game-board");
+var playerOneScoreBoardEl = document.querySelector(".player-one");
+var playerTwoScoreBoardEl = document.querySelector(".player-two");
+var playerOneScoreEl = document.querySelector(".player-one-score");
+var playerTwoScoreEl = document.querySelector(".player-two-score");
+var roundCounterNumEl = document.querySelector(".round-counter-score");
+var roundCounterEl = document.querySelector(".round-counter");
+var mainMenuEl = document.querySelector(".main-menu");
+var bounceAnimation = document.querySelector("bounce-animation");
+var spanEl = document.querySelector("span");
+var countdownEl = document.querySelector(".time");
+
+//bounce one click animation
+function animationBounce() {
+  gameBoardEl.classList.add("bounce-animation");
+  setTimeout(function () {
+    gameBoardEl.classList.remove("bounce-animation");
+  }, 500);
+}
 
 //background
 var background;
@@ -28,14 +47,6 @@ var crossImgMarker = `<span class="icon cross-icon"></span>`;
 var playerOneToken;
 var playerTwoToken;
 
-//get doms classes
-var bodyEl = document.querySelector("body");
-var gameBoardEl = document.querySelector(".game-board");
-var playerOneScoreBoardEl = document.querySelector(".player-one");
-var playerTwoScoreBoardEl = document.querySelector(".player-two");
-var playerOneScoreEl = document.querySelector(".player-one-score");
-var playerTwoScoreEl = document.querySelector(".player-two-score");
-
 var defaultThemeClass = function () {
   bodyEl.classList.remove("retro");
   gameBoardEl.classList.remove("retro");
@@ -45,6 +56,9 @@ var defaultThemeClass = function () {
   playerTwoScoreBoardEl.classList.add("default");
   playerOneScoreEl.classList.add("default");
   playerTwoScoreEl.classList.add("default");
+  roundCounterEl.classList.add("default");
+  roundCounterNumEl.classList.add("default");
+  mainMenuEl.classList.add("default");
 };
 
 // theme Class functions
@@ -72,7 +86,26 @@ var init = function () {
   for (var i = 0; i < gameBoardSquareNodeList.length; i++) {
     gameBoardSquareNodeList[i].innerHTML = "";
   }
-  ActivePlayer = playerOne;
+  playerOneScore = 0;
+  playerTwoScore = 0;
+  roundNumber = 1;
+  activePlayer = playerOne;
+};
+
+//round reset
+var roundReset = function () {
+  if (activePlayer === playerOne) {
+    activePlayer = playerTwo;
+  } else if (activePlayer === playerTwo) {
+    activePlayer = playerOne;
+  }
+  resetTimer();
+  startTimer();
+  roundNumber = roundNumber + 1;
+  roundCounterNumEl.textContent = roundNumber;
+  for (var i = 0; i < gameBoardSquareNodeList.length; i++) {
+    gameBoardSquareNodeList[i].innerHTML = "";
+  }
 };
 
 init();
@@ -89,6 +122,22 @@ var s8 = gameBoardSquareNodeList[7];
 var s9 = gameBoardSquareNodeList[8];
 
 //winner combo table
+function playerOneWins() {
+  playerOneScore = playerOneScore + 1;
+  playerOneScoreBoard.textContent = playerOneScore;
+  roundReset();
+  resetTimer();
+  startTimer();
+}
+
+function playerTwoWins() {
+  playerTwoScore = playerTwoScore + 1;
+  playerTwoScoreBoard.textContent = playerTwoScore;
+  renderTime();
+  resetTimer();
+  startTimer();
+}
+
 function winner() {
   //player 1 wins
 
@@ -119,9 +168,7 @@ function winner() {
       s7.innerHTML === playerOneToken)
   ) {
     console.log(`winner player one`);
-    playerOneScore = playerOneScore + 1;
-    playerOneScoreBoard.innerText = playerOneScore;
-    init();
+    setTimeout(playerOneWins(), 100);
 
     //player 2 wins
   } else if (
@@ -151,9 +198,7 @@ function winner() {
       s7.innerHTML === playerTwoToken)
   ) {
     console.log(`winner player two`);
-    playerTwoScore = playerTwoScore + 1;
-    playerTwoScoreBoard.innerText = playerTwoScore;
-    init();
+    setTimeout(playerTwoWins(), 100);
   } else if (
     //its a draw/tie
     (s1.innerHTML === playerOneToken || s1.innerHTML === playerTwoToken) &&
@@ -167,29 +212,108 @@ function winner() {
     (s9.innerHTML === playerOneToken || s9.innerHTML === playerTwoToken)
   ) {
     console.log(`it's a tie`);
-    init();
+    setTimeout(roundReset(), 100);
   }
 }
 
+// Select Countdown container
+const countContainer = document.getElementById("countdown-number");
+
+// Select action buttons
+const startButton = document.getElementById("start");
+const stopButton = document.getElementById("stop");
+const resetButton = document.getElementById("reset");
+
+// Select timeout Audio element
+const timeoutAudio = document.getElementById("timeout_audio");
+
+// variable to store count
+var startingTimer = 9;
+var remainingTime = startingTimer;
+
+// variable to store time interval
+var timer;
+
+// Variable to track whether timer is running or not
+var isStopped = true;
+
+// Function to start Timer
+const startTimer = () => {
+  if (isStopped) {
+    isStopped = false;
+    countdownEl.innerHTML = remainingTime.toFixed(1);
+    timer = setInterval(renderTime, 10);
+  }
+};
+
+// Function to stop Timer
+const stopTimer = () => {
+  isStopped = true;
+  if (timer) {
+    clearInterval(timer);
+  }
+};
+
+// Function to reset Timer
+const resetTimer = () => {
+  isStopped = true;
+  clearInterval(timer);
+  remainingTime = Number(startingTimer);
+  countdownEl.innerHTML = remainingTime;
+};
+
+// function to display time
+const renderTime = () => {
+  // decement time
+  remainingTime -= 0.01;
+  // render count on the screen
+  countdownEl.innerHTML = remainingTime.toFixed(1);
+  // timeout on zero
+  if (remainingTime <= 0) {
+    isStopped = true;
+    clearInterval(timer);
+    remainingTime = startingTimer;
+    if (activePlayer === playerOne) {
+      playerTwoWins();
+    } else if (activePlayer === playerTwo) {
+      playerOneWins();
+    }
+  }
+};
+// startTimer();
+
 function placeMarker(event) {
   var boxClicked = event.target;
-  if (ActivePlayer === playerOne) {
-    console.log(`player 1 placed marker`);
-    if (boxClicked.tagName.toLowerCase() === "div") {
+
+  console.log(boxClicked);
+
+  if (activePlayer === playerOne) {
+    if (boxClicked.tagName.toLowerCase() == "span") {
+      console.log("sqaure full 2");
+      animationBounce();
+    } else if (boxClicked.tagName.toLowerCase() === "div") {
       if (boxClicked.innerHTML === "") {
         boxClicked.innerHTML = playerOneToken;
-        ActivePlayer = playerTwo;
+        activePlayer = playerTwo;
+        resetTimer();
+        startTimer();
       }
     }
+
     winner();
-  } else if (ActivePlayer === playerTwo) {
-    console.log(`player 2 placed marker`);
-    if (boxClicked.tagName.toLowerCase() === "div") {
+  } else if (activePlayer === playerTwo) {
+    if (boxClicked.tagName.toLowerCase() == "span") {
+      console.log("sqaure full 2");
+      animationBounce();
+    } else if (boxClicked.tagName.toLowerCase() === "div") {
       if (boxClicked.innerHTML === "") {
         boxClicked.innerHTML = playerTwoToken;
-        ActivePlayer = playerOne;
+        activePlayer = playerOne;
+        resetTimer();
+        startTimer();
       }
     }
+
     winner();
   }
 }
