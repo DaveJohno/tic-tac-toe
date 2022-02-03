@@ -4,6 +4,7 @@ var playerOneScore;
 var playerTwo = false;
 var playerTwoScore;
 var roundNumber;
+var totalRounds;
 
 //get the Dom's
 var gameBoardSquareNodeList = document.querySelectorAll(".game-board-square");
@@ -89,16 +90,12 @@ var init = function () {
   playerOneScore = 0;
   playerTwoScore = 0;
   roundNumber = 1;
+  totalRounds = 3;
   activePlayer = playerOne;
 };
 
 //round reset
 var roundReset = function () {
-  if (activePlayer === playerOne) {
-    activePlayer = playerTwo;
-  } else if (activePlayer === playerTwo) {
-    activePlayer = playerOne;
-  }
   resetTimer();
   startTimer();
   roundNumber = roundNumber + 1;
@@ -125,20 +122,35 @@ var s9 = gameBoardSquareNodeList[8];
 function playerOneWins() {
   playerOneScore = playerOneScore + 1;
   playerOneScoreBoard.textContent = playerOneScore;
+  activePlayer = playerTwo;
   roundReset();
   resetTimer();
   startTimer();
+  gameWinner();
 }
 
 function playerTwoWins() {
   playerTwoScore = playerTwoScore + 1;
   playerTwoScoreBoard.textContent = playerTwoScore;
-  renderTime();
+  activePlayer = playerOne;
+  roundReset();
   resetTimer();
   startTimer();
+  gameWinner();
 }
 
-function winner() {
+gameWinner = function () {
+  if (playerOneScore === totalRounds - 1) {
+    console.log(`player 1 wins 2/${totalRounds} games`);
+    roundCounterNumEl.innerHTML = "END!";
+    stopTimer();
+  } else if (playerTwoScore === totalRounds - 1) {
+    console.log(`player 2 wins 2/${totalRounds} games`);
+    roundCounterNumEl.textContent = "END!";
+    stopTimer();
+  }
+};
+function roundWinner() {
   //player 1 wins
 
   if (
@@ -218,22 +230,17 @@ function winner() {
 
 // Select Countdown container
 const countContainer = document.getElementById("countdown-number");
-
 // Select action buttons
 const startButton = document.getElementById("start");
 const stopButton = document.getElementById("stop");
 const resetButton = document.getElementById("reset");
-
 // Select timeout Audio element
 const timeoutAudio = document.getElementById("timeout_audio");
-
 // variable to store count
 var startingTimer = 9;
 var remainingTime = startingTimer;
-
 // variable to store time interval
 var timer;
-
 // Variable to track whether timer is running or not
 var isStopped = true;
 
@@ -252,6 +259,7 @@ const stopTimer = () => {
   if (timer) {
     clearInterval(timer);
   }
+  countdownEl.innerHTML = (0.0).toFixed(1);
 };
 
 // Function to reset Timer
@@ -280,7 +288,6 @@ const renderTime = () => {
     }
   }
 };
-// startTimer();
 
 function placeMarker(event) {
   var boxClicked = event.target;
@@ -300,7 +307,7 @@ function placeMarker(event) {
       }
     }
 
-    winner();
+    roundWinner();
   } else if (activePlayer === playerTwo) {
     if (boxClicked.tagName.toLowerCase() == "span") {
       console.log("sqaure full 2");
@@ -314,9 +321,11 @@ function placeMarker(event) {
       }
     }
 
-    winner();
+    roundWinner();
   }
 }
 
 var gameBoardEl = document.querySelector(".game-board");
 gameBoardEl.addEventListener("click", placeMarker);
+
+init();
