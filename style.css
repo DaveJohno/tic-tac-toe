@@ -38,12 +38,13 @@ body.default {
 body.retro {
   font-family: "VT323", monospace;
   color: black;
-  background-color: yellow;
+  background-color: black;
   border: dashed 5px blue;
   color: white;
 }
 
-.main-menu {
+.main-menu,
+.options-menu {
   position: fixed;
   display: flex;
   flex-direction: column;
@@ -54,22 +55,107 @@ body.retro {
   padding: 20px;
   animation-duration: 4s;
   animation-delay: 2s;
-  display: none;
+  height: 50%;
+  max-height: 500px;
+  width: 70%;
+  max-width: 350px;
+  /* display: none; */
 }
+
+.options-menu {
+  justify-content: space-around;
+}
+
+.theme-selection {
+  margin: 5px;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  justify-content: center;
+  align-items: center;
+}
+
+.theme-heading {
+  font-size: 1.5rem;
+  grid-column: 1 / span 2;
+}
+
+.theme-heading.default {
+  border-top: tomato solid 5px;
+  padding: 10px;
+}
+.theme-heading.retro {
+  border-top: yellow dashed 5px;
+  padding: 10px;
+}
+.back-btn {
+  font-size: 1.5rem;
+}
+
 h1 {
   margin: 0px;
   margin-bottom: 20px;
-  border-bottom: tomato solid 5px;
+  text-align: center;
+  font-size: 2rem;
   padding: 0px 10px;
 }
-h2 {
-  margin: 0px;
+
+h1.default {
+  border-bottom: tomato solid 5px;
 }
 
-.main-menu.default {
+h1.retro {
+  border-bottom: yellow dashed 5px;
+}
+
+h2 {
+  text-align: center;
+  font-size: 1.2rem;
+  margin: 5px;
+}
+
+.start-btn:hover,
+.options-btn:hover {
+  cursor: pointer;
+  color: dodgerblue;
+}
+.main-menu.default,
+.options-menu.default {
   color: rgba(94, 138, 171, 1);
   border: tomato solid 5px;
-  background-color: wheat;
+  background-color: rgba(245, 222, 179, 0.8);
+}
+
+.main-menu.retro,
+.options-menu.retro {
+  color: white;
+  border: yellow dashed 5px;
+  background-color: black;
+}
+
+.overlay {
+  position: fixed;
+  width: 110vw;
+  height: 110vh;
+  filter: blur(10px);
+  z-index: 4;
+}
+.overlay.default {
+  background-image: url(./images/tic-toc-background.png);
+  background-color: rgba(94, 138, 171, 01);
+}
+
+.overlay.retro {
+  background-image: none;
+  background-color: blue;
+}
+
+input {
+  margin: 5px;
+  width: 50px;
+  height: 50px;
+  border: none;
+  text-align: center;
+  border-radius: 5px;
 }
 
 .forground-img {
@@ -93,6 +179,12 @@ h2 {
   width: 100%;
   z-index: 2;
 }
+
+.forground-img-left.retro,
+.forground-img-right.retro {
+  background-image: none;
+}
+
 .forground-img-right {
   position: fixed;
   right: 0px;
@@ -128,7 +220,7 @@ h2 {
   color: white;
 }
 
-.score-board.default {
+.score-board {
   display: grid;
   margin: 0 auto;
   grid-template-columns: repeat(3, 1fr);
@@ -154,21 +246,36 @@ h2 {
   font-size: 1.2rem;
   background-color: rgba(255, 99, 71, 0.7);
 }
+.player-one.retro {
+  color: white;
+  font-size: 1.2rem;
+  background-color: black;
+}
+
 .player-two.default {
   color: white;
   font-size: 1.2rem;
   background-color: rgba(255, 248, 220, 0.7);
+}
+.player-two.retro {
+  color: white;
+  font-size: 1.2rem;
+  background-color: black;
 }
 
 .round-counter.default {
   color: white;
   font-size: 1.2rem;
 }
-
+.round-counter.retro {
+  color: white;
+  font-size: 1.2rem;
+}
 .player-one.retro,
 .player-two.retro {
   color: white;
   border: yellow dashed;
+  border-radius: 0px;
 }
 
 .player-one-score,
@@ -198,6 +305,14 @@ h2 {
   padding: 5px;
 }
 
+.round-counter.default {
+  background-color: rgba(94, 138, 171, 0.5);
+}
+
+.round-counter.retro {
+  background-color: black;
+}
+
 .count-down-timer > div {
   margin: 2px;
 }
@@ -205,6 +320,11 @@ h2 {
 .round-counter-score.default {
   background-color: rgba(94, 138, 171, 0.8);
   border-radius: 5px;
+}
+.round-counter-score.retro {
+  background-color: yellow;
+  color: black;
+  /* border-radius: 5px; */
 }
 
 .player-one-score.default,
@@ -242,6 +362,45 @@ header {
   aspect-ratio: 1/1;
   align-self: center;
   text-align: center;
+  color: white;
+}
+
+.game-board.default {
+  background-size: 345px 345px;
+  background-image: url(./images/tic\ toc\ game-board.png);
+}
+
+.game-board.retro {
+  color: white;
+  background-image: none;
+  background-color: black;
+  gap: 15px;
+}
+
+.fade-out-animation {
+  animation: fade-out 0.5s linear;
+}
+
+@keyframes fade-out {
+  0% {
+    opacity: 1;
+  }
+  100% {
+    opacity: 0;
+  }
+}
+
+.fade-in-animation {
+  animation: fade-in 1s linear;
+}
+
+@keyframes fade-in {
+  0% {
+    opacity: 0;
+  }
+  100% {
+    opacity: 1;
+  }
 }
 
 .bounce-animation {
@@ -257,23 +416,14 @@ header {
     transform: translateY(0px);
   }
   40% {
-    transform: translatex(-1px);
+    transform: translatex(-20px);
   }
   70% {
   }
   90% {
-    transform: translateX(3px);
-    transform: translateY(-4px);
+    transform: translateX(10px);
+    transform: translateY(-20px);
   }
-}
-
-.game-board.default {
-  background-size: 345px 345px;
-  background-image: url(./images/tic\ toc\ game-board.png);
-}
-
-.game-board.retro {
-  color: black;
 }
 
 .game-board-square {
@@ -286,10 +436,14 @@ header {
   justify-content: center;
   aspect-ratio: 1/1;
 }
+.game-board-square.retro {
+  background-color: yellow;
+  color: black;
+}
 
 .icon {
-  height: 70%;
-  width: 70%;
+  height: 60%;
+  width: 60%;
   background-size: contain;
   background-size: 90%;
   background-repeat: no-repeat;
@@ -364,4 +518,22 @@ footer {
     width: 30%;
     z-index: 2;
   }
+}
+
+.hidden {
+  display: none;
+}
+
+.flex {
+  display: flex;
+}
+.grid {
+  display: grid;
+}
+
+.no-pointer-events {
+  pointer-events: none;
+}
+.active-pointer-events {
+  pointer-events: visible;
 }

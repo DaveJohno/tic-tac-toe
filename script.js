@@ -3,11 +3,14 @@ var playerOne = true;
 var playerOneScore;
 var playerTwo = false;
 var playerTwoScore;
-var roundNumber;
+var roundNumber = 1;
 var totalRounds;
+var gameover;
 
 //get the Dom's
 var gameBoardSquareNodeList = document.querySelectorAll(".game-board-square");
+var gameSquares = document.querySelector(".game-board-sqaure");
+
 var playerOneScoreBoard = document.querySelector(".player-one-score");
 var playerTwoScoreBoard = document.querySelector(".player-two-score");
 var bodyEl = document.querySelector("body");
@@ -19,9 +22,31 @@ var playerTwoScoreEl = document.querySelector(".player-two-score");
 var roundCounterNumEl = document.querySelector(".round-counter-score");
 var roundCounterEl = document.querySelector(".round-counter");
 var mainMenuEl = document.querySelector(".main-menu");
-var bounceAnimation = document.querySelector("bounce-animation");
-var spanEl = document.querySelector("span");
 var countdownEl = document.querySelector(".time");
+var starGameBtn = document.querySelector(".start-btn");
+var optionsBtn = document.querySelector(".options-btn");
+var overlay = document.querySelector(".overlay");
+var OptionsMenuEl = document.querySelector(".options-menu");
+var h1 = document.querySelector("h1");
+var roundSelectorInputEl = document.querySelector("#roundNumber");
+var optionsBackbtn = document.querySelector(".back-btn");
+var defaultThemeBtn = document.querySelector(".theme-default-btn");
+var retroThemeBtn = document.querySelector(".theme-retro-btn");
+var themeHeading = document.querySelector(".theme-heading");
+roundCounterBackground = document.querySelector(".round-counter");
+var leftForground = document.querySelector(".forground-img-left");
+var rightForground = document.querySelector(".forground-img-right");
+
+//getting the doms of the all game sqaures
+var s1 = gameBoardSquareNodeList[0];
+var s2 = gameBoardSquareNodeList[1];
+var s4 = gameBoardSquareNodeList[3];
+var s5 = gameBoardSquareNodeList[4];
+var s6 = gameBoardSquareNodeList[5];
+var s3 = gameBoardSquareNodeList[2];
+var s7 = gameBoardSquareNodeList[6];
+var s8 = gameBoardSquareNodeList[7];
+var s9 = gameBoardSquareNodeList[8];
 
 //bounce one click animation
 function animationBounce() {
@@ -48,9 +73,9 @@ var crossImgMarker = `<span class="icon cross-icon"></span>`;
 var playerOneToken;
 var playerTwoToken;
 
+// theme Class functions
+//default
 var defaultThemeClass = function () {
-  bodyEl.classList.remove("retro");
-  gameBoardEl.classList.remove("retro");
   bodyEl.classList.add("default");
   gameBoardEl.classList.add("default");
   playerOneScoreBoardEl.classList.add("default");
@@ -60,28 +85,101 @@ var defaultThemeClass = function () {
   roundCounterEl.classList.add("default");
   roundCounterNumEl.classList.add("default");
   mainMenuEl.classList.add("default");
-};
+  h1.classList.add("default");
+  OptionsMenuEl.classList.add("default");
+  themeHeading.classList.add("default");
+  roundCounterBackground.classList.add("default");
+  overlay.classList.add("default");
 
-// theme Class functions
+  bodyEl.classList.remove("retro");
+  gameBoardEl.classList.remove("retro");
+  bodyEl.classList.remove("retro");
+  gameBoardEl.classList.remove("retro");
+  playerOneScoreBoardEl.classList.remove("retro");
+  playerTwoScoreBoardEl.classList.remove("retro");
+  playerOneScoreEl.classList.remove("retro");
+  playerTwoScoreEl.classList.remove("retro");
+  roundCounterEl.classList.remove("retro");
+  roundCounterNumEl.classList.remove("retro");
+  mainMenuEl.classList.remove("retro");
+  h1.classList.remove("retro");
+  OptionsMenuEl.classList.remove("retro");
+  themeHeading.classList.remove("retro");
+  roundCounterBackground.classList.remove("retro");
+  overlay.classList.remove("retro");
+  s1.classList.remove("retro");
+  s2.classList.remove("retro");
+  s3.classList.remove("retro");
+  s4.classList.remove("retro");
+  s5.classList.remove("retro");
+  s6.classList.remove("retro");
+  s7.classList.remove("retro");
+  s8.classList.remove("retro");
+  s9.classList.remove("retro");
+  leftForground.classList.remove("retro");
+  rightForground.classList.remove("retro");
+};
+//retro
 var retroThemeClass = function () {
   bodyEl.classList.add("retro");
   gameBoardEl.classList.add("retro");
+  playerOneScoreBoardEl.classList.add("retro");
+  playerTwoScoreBoardEl.classList.add("retro");
+  playerOneScoreEl.classList.add("retro");
+  playerTwoScoreEl.classList.add("retro");
+  roundCounterEl.classList.add("retro");
+  roundCounterNumEl.classList.add("retro");
+  mainMenuEl.classList.add("retro");
+  h1.classList.add("retro");
+  OptionsMenuEl.classList.add("retro");
+  retroThemeBtn.classList.add("retro");
+  themeHeading.classList.add("retro");
+  roundCounterBackground.classList.add("retro");
+  overlay.classList.add("retro");
+  s1.classList.add("retro");
+  s2.classList.add("retro");
+  s3.classList.add("retro");
+  s4.classList.add("retro");
+  s5.classList.add("retro");
+  s6.classList.add("retro");
+  s7.classList.add("retro");
+  s8.classList.add("retro");
+  s9.classList.add("retro");
+  leftForground.classList.add("retro");
+  rightForground.classList.add("retro");
+
+  bodyEl.classList.remove("default");
+  gameBoardEl.classList.remove("default");
+  bodyEl.classList.remove("default");
+  gameBoardEl.classList.remove("default");
+  playerOneScoreBoardEl.classList.remove("default");
+  playerTwoScoreBoardEl.classList.remove("default");
+  playerOneScoreEl.classList.remove("default");
+  playerTwoScoreEl.classList.remove("default");
+  roundCounterEl.classList.remove("default");
+  roundCounterNumEl.classList.remove("default");
+  mainMenuEl.classList.remove("default");
+  h1.classList.remove("default");
+  OptionsMenuEl.classList.remove("default");
+  retroThemeBtn.classList.remove("default");
+  themeHeading.classList.remove("default");
+  roundCounterBackground.classList.remove("default");
+  overlay.classList.remove("default");
 };
+
 //Themes settings
-var defaultTheme = function () {
+function defaultThemeSelection() {
   playerOneToken = circleImgMarker;
   playerTwoToken = crossImgMarker;
   defaultThemeClass();
-};
+}
 
-var retroTheme = function () {
+function retroThemeSelection() {
   playerOneToken = "o";
   playerTwoToken = "x";
   retroThemeClass();
-};
-
-gameTheme = defaultTheme();
-
+}
+defaultThemeSelection();
 //initial settings
 var init = function () {
   for (var i = 0; i < gameBoardSquareNodeList.length; i++) {
@@ -90,8 +188,8 @@ var init = function () {
   playerOneScore = 0;
   playerTwoScore = 0;
   roundNumber = 1;
-  totalRounds = 3;
   activePlayer = playerOne;
+  gameover = false;
 };
 
 //round reset
@@ -100,23 +198,11 @@ var roundReset = function () {
   startTimer();
   roundNumber = roundNumber + 1;
   roundCounterNumEl.textContent = roundNumber;
+  gameover = false;
   for (var i = 0; i < gameBoardSquareNodeList.length; i++) {
     gameBoardSquareNodeList[i].innerHTML = "";
   }
 };
-
-init();
-
-//getting the doms of the all game sqaures
-var s1 = gameBoardSquareNodeList[0];
-var s2 = gameBoardSquareNodeList[1];
-var s4 = gameBoardSquareNodeList[3];
-var s5 = gameBoardSquareNodeList[4];
-var s6 = gameBoardSquareNodeList[5];
-var s3 = gameBoardSquareNodeList[2];
-var s7 = gameBoardSquareNodeList[6];
-var s8 = gameBoardSquareNodeList[7];
-var s9 = gameBoardSquareNodeList[8];
 
 //winner combo table
 function playerOneWins() {
@@ -144,10 +230,22 @@ gameWinner = function () {
     console.log(`player 1 wins 2/${totalRounds} games`);
     roundCounterNumEl.innerHTML = "END!";
     stopTimer();
+    setTimeout(() => {
+      showMenu();
+      fadeIn();
+    }, 2000);
+
+    gameover = true;
   } else if (playerTwoScore === totalRounds - 1) {
     console.log(`player 2 wins 2/${totalRounds} games`);
     roundCounterNumEl.textContent = "END!";
     stopTimer();
+    setTimeout(() => {
+      showMenu();
+      fadeIn();
+    }, 2000);
+
+    gameover = true;
   }
 };
 function roundWinner() {
@@ -289,43 +387,131 @@ const renderTime = () => {
   }
 };
 
+function fadeOut() {
+  overlay.classList.remove("fade-in-animation");
+  mainMenuEl.classList.remove("fade-in-animation");
+  overlay.classList.add("fade-out-animation");
+  mainMenuEl.classList.add("fade-out-animation");
+}
+
+function fadeIn() {
+  overlay.classList.remove("fade-out-animation");
+  mainMenuEl.classList.remove("fade-out-animation");
+  overlay.classList.add("fade-in-animation");
+  mainMenuEl.classList.add("fade-in-animation");
+}
+
+//main Menu
+function hideMenu() {
+  mainMenuEl.classList.add("hidden");
+}
+function showMenu() {
+  mainMenuEl.classList.remove("hidden");
+}
+
+// Options Menu
+function hideOptionsMenu() {
+  OptionsMenuEl.classList.add("hidden");
+}
+
+function showOptionsMenu() {
+  OptionsMenuEl.classList.remove("hidden");
+}
+function showOverlay() {
+  overlay.classList.remove("hidden");
+}
+function hideOverlay() {
+  overlay.classList.add("hidden");
+}
+
+//fade out menu and start game
+function startGame() {
+  if (roundSelectorInputEl.value === "") {
+    console.log(roundSelectorInputEl.value);
+    totalRounds = 3;
+  } else if (roundSelectorInputEl.value !== "") {
+    totalRounds = Number(roundSelectorInputEl.value);
+    console.log(roundSelectorInputEl.value);
+  }
+  fadeOut();
+  setTimeout(() => {
+    hideMenu();
+    hideOverlay();
+    init();
+    roundCounterNumEl.innerHTML = "1";
+  }, 500);
+}
+
+//fade in menu after game finished
+function OpenMenu() {
+  showMenu();
+  fadeIn();
+}
+
+//from main to options menu
+function toOptionsMenu() {
+  hideMenu();
+  showOptionsMenu();
+}
+
+//options back to Main
+function backToMainMenu() {
+  if (roundSelectorInputEl.value === "") {
+    console.log(roundSelectorInputEl.value);
+    totalRounds = 3;
+  } else if (roundSelectorInputEl.value !== "") {
+    totalRounds = Number(roundSelectorInputEl.value);
+    console.log(roundSelectorInputEl.value);
+  }
+  showMenu();
+  hideOptionsMenu();
+  init();
+}
+
 function placeMarker(event) {
   var boxClicked = event.target;
-
-  console.log(boxClicked);
-
-  if (activePlayer === playerOne) {
-    if (boxClicked.tagName.toLowerCase() == "span") {
-      console.log("sqaure full 2");
-      animationBounce();
-    } else if (boxClicked.tagName.toLowerCase() === "div") {
-      if (boxClicked.innerHTML === "") {
-        boxClicked.innerHTML = playerOneToken;
-        activePlayer = playerTwo;
-        resetTimer();
-        startTimer();
+  if (gameover === true) {
+    boxClicked.style.pointerEvent = "none";
+  } else {
+    boxClicked.style.pointerEvents = "auto";
+    if (activePlayer === playerOne) {
+      if (boxClicked.tagName.toLowerCase() == "span") {
+        console.log("sqaure full 2");
+        animationBounce();
+      } else if (boxClicked.tagName.toLowerCase() === "div") {
+        if (boxClicked.innerHTML === "") {
+          boxClicked.innerHTML = playerOneToken;
+          activePlayer = playerTwo;
+          resetTimer();
+          startTimer();
+        }
       }
-    }
 
-    roundWinner();
-  } else if (activePlayer === playerTwo) {
-    if (boxClicked.tagName.toLowerCase() == "span") {
-      console.log("sqaure full 2");
-      animationBounce();
-    } else if (boxClicked.tagName.toLowerCase() === "div") {
-      if (boxClicked.innerHTML === "") {
-        boxClicked.innerHTML = playerTwoToken;
-        activePlayer = playerOne;
-        resetTimer();
-        startTimer();
+      roundWinner();
+    } else if (activePlayer === playerTwo) {
+      if (boxClicked.tagName.toLowerCase() == "span") {
+        console.log("sqaure full 2");
+        animationBounce();
+      } else if (boxClicked.tagName.toLowerCase() === "div") {
+        if (boxClicked.innerHTML === "") {
+          boxClicked.innerHTML = playerTwoToken;
+          activePlayer = playerOne;
+          resetTimer();
+          startTimer();
+        }
       }
-    }
 
-    roundWinner();
+      roundWinner();
+    }
   }
 }
 
-var gameBoardEl = document.querySelector(".game-board");
+starGameBtn.addEventListener("click", startGame);
+optionsBtn.addEventListener("click", toOptionsMenu);
+optionsBackbtn.addEventListener("click", backToMainMenu);
 gameBoardEl.addEventListener("click", placeMarker);
+defaultThemeBtn.addEventListener("click", defaultThemeSelection);
+retroThemeBtn.addEventListener("click", retroThemeSelection);
 
 init();
+retroThemeSelection();
