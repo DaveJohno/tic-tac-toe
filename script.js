@@ -36,6 +36,12 @@ var themeHeading = document.querySelector(".theme-heading");
 roundCounterBackground = document.querySelector(".round-counter");
 var leftForground = document.querySelector(".forground-img-left");
 var rightForground = document.querySelector(".forground-img-right");
+var audioError = document.querySelector("#error");
+var audioPlaceToken = document.querySelector("#placeToken");
+var musicTrackOne = document.querySelector("#trackOne");
+var musicTrackTwo = document.querySelector("#trackTwo");
+var musicTrackThree = document.querySelector("#trackThree");
+var musicTrackFour = document.querySelector("#trackFour");
 
 //getting the doms of the all game sqaures
 var s1 = gameBoardSquareNodeList[0];
@@ -167,6 +173,34 @@ var retroThemeClass = function () {
   overlay.classList.remove("default");
 };
 
+//music array
+var musicTrackList = [
+  musicTrackOne,
+  musicTrackTwo,
+  musicTrackThree,
+  musicTrackFour,
+];
+console.log(musicTrackList);
+
+function playMusic() {
+  for (i = 0; i < musicTrackList.length; i++) {
+    var x = musicTrackList[Math.floor(Math.random() * musicTrackList.length)];
+  }
+  x.play();
+}
+function stopMusic() {
+  musicTrackList[i];
+}
+
+//audio play functions
+function playAudioError() {
+  audioError.play();
+}
+
+function playAudioPlaceToken() {
+  audioPlaceToken.play();
+}
+
 //Themes settings
 function defaultThemeSelection() {
   playerOneToken = circleImgMarker;
@@ -180,6 +214,7 @@ function retroThemeSelection() {
   retroThemeClass();
 }
 defaultThemeSelection();
+
 //initial settings
 var init = function () {
   for (var i = 0; i < gameBoardSquareNodeList.length; i++) {
@@ -427,7 +462,6 @@ function hideOverlay() {
 //fade out menu and start game
 function startGame() {
   if (roundSelectorInputEl.value === "") {
-    console.log(roundSelectorInputEl.value);
     totalRounds = 3;
   } else if (roundSelectorInputEl.value !== "") {
     totalRounds = Number(roundSelectorInputEl.value);
@@ -476,10 +510,12 @@ function placeMarker(event) {
     boxClicked.style.pointerEvents = "auto";
     if (activePlayer === playerOne) {
       if (boxClicked.tagName.toLowerCase() == "span") {
-        console.log("sqaure full 2");
+        console.log("sqaure full 1");
+        playAudioError();
         animationBounce();
       } else if (boxClicked.tagName.toLowerCase() === "div") {
         if (boxClicked.innerHTML === "") {
+          playAudioPlaceToken();
           boxClicked.innerHTML = playerOneToken;
           activePlayer = playerTwo;
           resetTimer();
@@ -491,9 +527,11 @@ function placeMarker(event) {
     } else if (activePlayer === playerTwo) {
       if (boxClicked.tagName.toLowerCase() == "span") {
         console.log("sqaure full 2");
+        playAudioError();
         animationBounce();
       } else if (boxClicked.tagName.toLowerCase() === "div") {
         if (boxClicked.innerHTML === "") {
+          playAudioPlaceToken();
           boxClicked.innerHTML = playerTwoToken;
           activePlayer = playerOne;
           resetTimer();
@@ -514,4 +552,4 @@ defaultThemeBtn.addEventListener("click", defaultThemeSelection);
 retroThemeBtn.addEventListener("click", retroThemeSelection);
 
 init();
-retroThemeSelection();
+playMusic();
