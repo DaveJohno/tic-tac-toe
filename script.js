@@ -43,6 +43,16 @@ var musicTrackTwo = document.querySelector("#trackTwo");
 var musicTrackThree = document.querySelector("#trackThree");
 var musicTrackFour = document.querySelector("#trackFour");
 
+//muic volume
+musicTrackOne.volume = 0.2;
+musicTrackTwo.volume = 0.2;
+musicTrackThree.volume = 0.2;
+musicTrackFour.volume = 0.2;
+
+// effects volume
+audioError.volume = 0.3;
+audioPlaceToken.volume = 0.3;
+
 //getting the doms of the all game sqaures
 var s1 = gameBoardSquareNodeList[0];
 var s2 = gameBoardSquareNodeList[1];
@@ -461,6 +471,7 @@ function hideOverlay() {
 
 //fade out menu and start game
 function startGame() {
+  playMusic();
   if (roundSelectorInputEl.value === "") {
     totalRounds = 3;
   } else if (roundSelectorInputEl.value !== "") {
@@ -552,4 +563,3 @@ defaultThemeBtn.addEventListener("click", defaultThemeSelection);
 retroThemeBtn.addEventListener("click", retroThemeSelection);
 
 init();
-playMusic();
